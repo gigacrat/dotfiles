@@ -4,17 +4,27 @@ GNU Stow packages for an Omarchy Linux (Quattro / 4.x) system.
 
 ## Usage
 
+Run these from the repo root — `.stowrc` supplies `--dir`, `--target` and
+`--no-folding`, and Stow only reads it from the current directory.
+
 ```bash
-stow --no-folding -d ~/Projects/dotfiles -t ~ hypr    # link
-stow --no-folding -d ~/Projects/dotfiles -t ~ -D hypr # unlink
-stow --no-folding -d ~/Projects/dotfiles -t ~ -R hypr # relink after adding files
+cd ~/Projects/dotfiles
+stow hypr      # link
+stow -D hypr   # unlink
+stow -R hypr   # relink, e.g. after adding files to a package
+stow */        # link every package
 ```
 
-`--no-folding` is required, not cosmetic. Without it Stow collapses
-`~/.config/hypr` into a single symlink pointing at this repo, and every
-`*.bak.<timestamp>` that Omarchy drops during an upgrade lands inside the repo
-as untracked junk. With it, `~/.config/hypr` stays a real directory holding
-per-file symlinks, and Omarchy's backups stay outside version control.
+`--no-folding` is required, not cosmetic, which is why `.stowrc` pins it.
+Without it Stow collapses `~/.config/hypr` into a single symlink pointing at
+this repo, and every `*.bak.<timestamp>` that Omarchy drops during an upgrade
+lands inside the repo as untracked junk. With it, `~/.config/hypr` stays a real
+directory holding per-file symlinks, and Omarchy's backups stay outside version
+control.
+
+Use `stow --adopt <package>` only when the live files are already known to be
+byte-identical to the package copies; it overwrites package contents with
+whatever is in the target.
 
 ## Packages
 
