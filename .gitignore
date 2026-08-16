@@ -1,0 +1,63 @@
+# Guardrails for a PUBLIC dotfiles repo.
+#
+# This is a denylist, not a convenience file. Its job is to make a reflexive
+# `git add -A` unable to publish a secret. Add new packages file-by-file --
+# never a whole application directory.
+#
+# These patterns can hide a file you actually wanted. If something is
+# mysteriously not staging, check: git status --ignored
+
+# --- Key and credential material -------------------------------------------
+*.key
+*.pem
+*.p12
+*.pfx
+*.gpg
+*.asc
+*.kdbx
+id_rsa*
+id_ed25519*
+id_ecdsa*
+id_dsa*
+*.netrc
+.netrc
+known_hosts*
+*credential*
+*token*
+*secret*
+*password*
+
+# --- Config files known to carry credentials -------------------------------
+**/gh/hosts.yml
+**/aws/credentials
+**/.npmrc
+**/.pypirc
+**/docker/config.json
+**/op/
+
+# --- Application directories that mix config with state or secrets ---------
+1Password/
+Bitwarden/
+BraveSoftware/
+chromium/
+google-chrome*/
+microsoft-edge*/
+github-copilot/
+dconf/
+fcitx/
+fcitx5/
+ibus/
+
+# --- State, caches, databases ----------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.bak
+*.bak.*
+*.old
+Cache/
+CachedData/
+
+# --- OS noise --------------------------------------------------------------
+.DS_Store
