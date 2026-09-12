@@ -44,27 +44,29 @@ if tile_omarchy_floats then
   -- app, drop scrolling_width from the tag rule and set it per class instead.
 end
 
--- Apps that float on their own initiative are not covered by the tag above.
--- Hyprland floats toplevels that declare a parent, which is how Electron and
--- GTK modals arrive; a plain parentless window tiles normally (pinentry-gtk
--- does, for instance).
+-- Windows that float on their own initiative are not covered by the tag above.
+-- Hyprland floats toplevels that declare a parent, which is how most Electron
+-- and GTK modals arrive; a parentless window tiles normally.
 --
--- These have to be matched on a STATIC property -- class, title or tag.
--- Matching `float = true` reads like the obvious way to catch "whatever is
--- floating", but it cannot work for placement: a window only satisfies that
+-- Catching those would need a STATIC match -- class, title or tag. There is no
+-- generic one: the compositor has no "is a dialog" match, and matching
+-- `float = true` cannot drive placement, because a window only satisfies that
 -- match once something has already floated it, so the rule is evaluated after
 -- placement is settled and `tile` is discarded. The match itself does fire --
 -- a tag payload lands fine -- which makes it look like a precedence bug rather
--- than an ordering one. Omarchy leans on the static form for Chromium/Electron
+-- than an ordering one. Omarchy uses the static form for Chromium/Electron
 -- popups in default/hypr/apps/browser.lua.
 --
--- Obsidian's vault switcher is deliberately left floating; do not add a `tile`
--- rule for it. The window is fixed-size -- it reports 820x670 and refuses every
--- resize, floating or tiled -- so tiling only stretches the frame while the
--- client keeps painting 820x670, leaving desktop visible inside the window.
+-- So anything not covered by the tag is left to float, deliberately. Tiling it
+-- instead would mean naming the app, and often a measured width alongside:
+-- whether a column helps at all depends on the client. One that negotiates its
+-- size fills the column; one that hard-codes its geometry does not, and the
+-- layout just stretches the frame while the client keeps painting its own size,
+-- leaving desktop visible inside the window.
 --
--- Worth checking before tiling any popup. Focus it while it is still floating,
--- then ask for a size it cannot have:
---   hyprctl dispatch 'hl.dsp.window.resize({ x = 1200, y = 900 })'
--- If hyprctl clients still reports the old size, the window is fixed and does
--- not belong in the scroll.
+-- Some of those hard-coded sizes are too small for the app's own content, which
+-- floating then shows cropped. Nothing here can fix that: the size is the
+-- client's decision, a `size` rule and `no_max_size` are both ignored, and
+-- Hyprland exposes no way to read what the window actually wants -- there are
+-- no min/max size fields in the Lua API or in `hyprctl clients`. That makes it
+-- an app bug rather than a config gap, and it belongs upstream.
