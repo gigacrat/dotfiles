@@ -25,23 +25,36 @@
 -- Set to false and `hyprctl reload` to get Omarchy's behaviour back.
 local tile_omarchy_floats = true
 
-if tile_omarchy_floats then
-  -- scrolling_width is a fraction of the monitor, and 0.5 is deliberately the
-  -- first entry in scrolling.explicit_column_widths (looknfeel.lua), so a popup
-  -- opens at half width and SUPER+O toggles it straight to full.
-  --
-  -- Fraction only. A pixel value here is not clamped or rejected: 820 failed to
-  -- map the window at all and pushed the scroll offsets past 600,000, and a
-  -- negative gave a column 3px wide.
-  o.window({ tag = "floating-window" }, { tile = true, scrolling_width = 0.5 })
+-- Column width for these, as a fraction of the monitor. 0.5 is deliberately the
+-- first entry in scrolling.explicit_column_widths (looknfeel.lua), so one opens
+-- at half width and SUPER+O toggles it straight to full.
+--
+-- Fraction only. A pixel value here is not clamped or rejected: 820 failed to
+-- map the window at all and pushed the scroll offsets past 600,000, and a
+-- negative gave a column 3px wide.
+local popup_width = 0.5
 
-  -- Opt individual apps back out of the experiment as you hit them, e.g.:
+if tile_omarchy_floats then
+  o.window({ tag = "floating-window" }, { tile = true, scrolling_width = popup_width })
+
+  -- Omarchy floats some apps with a direct class rule rather than the tag
+  -- above, so the tag rule never reaches them (default/hypr/apps/system.lua).
+  -- These are ordinary resizable windows that fill a column cleanly, so they
+  -- get the same treatment instead of being left as exceptions.
+  --
+  -- The genuine overlays in that group stay floating on purpose: PiP and the
+  -- webcam overlay are pinned, the screensaver is fullscreen, and a tiled
+  -- column is the wrong shape for all three.
+  o.window("^omacalc$", { tile = true, scrolling_width = popup_width })
+
+  -- Opt individual apps back out as you hit them, e.g.:
   -- o.window("org.gnome.NautilusPreviewer", { float = true })
   --
-  -- Per-app widths do NOT work alongside the rule above -- a tag-matched rule
-  -- beats a class-matched one for this property whatever the file order, since
-  -- tags are assigned while rules are still being processed. To vary width by
-  -- app, drop scrolling_width from the tag rule and set it per class instead.
+  -- Note a width set per class only lands on windows the tag does not cover,
+  -- which is why it works above. A tag-matched rule beats a class-matched one
+  -- for this property whatever the file order, because tags are assigned while
+  -- rules are still being processed -- so a class width cannot override the tag
+  -- rule, only fill in where it does not apply.
 end
 
 -- Windows that float on their own initiative are not covered by the tag above.
