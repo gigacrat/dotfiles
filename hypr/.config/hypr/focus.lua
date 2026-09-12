@@ -1,24 +1,19 @@
 -- Return focus to the previously focused window when a window closes.
 --
--- Hyprland's `input:focus_on_close` only offers 0 (next window candidate, by
--- layout adjacency) and 1 (window under the cursor). Neither is "the window I
--- was on before". On a scrolling layout that shows up as: focus a column, let a
--- popup open a new column, dismiss it, and land on whichever column happens to
--- sit next in the scroll instead of where you were.
+-- Hyprland's `input:focus_on_close` offers only 0 (next candidate, by layout
+-- adjacency) and 1 (window under the cursor). Neither is "the window I was on
+-- before", so on a scrolling layout dismissing a popup lands on whichever
+-- column happens to sit next in the scroll instead of where you were.
 --
--- No stack needed -- Hyprland already keeps a focus history (every window
--- carries a focus_history_id, 0 being active) and hl.get_last_window() reads
--- the entry just behind the active one. This hooks window.close, remembers that
--- window, and re-focuses it once the close has settled.
---
--- The re-focus is deferred by a timer on purpose. Hyprland runs its own
--- on-close focus pick after this event fires, so focusing synchronously here
--- would just get overwritten.
+-- No stack needed: Hyprland already keeps a focus history -- every window
+-- carries a focus_history_id, 0 being active -- and hl.get_last_window() reads
+-- the entry just behind it. Nested popups unwind correctly for the same reason.
 
 local return_focus_on_close = true
 
--- Milliseconds to wait before restoring focus. Long enough for Hyprland's own
--- on-close focus pick to land first, short enough to be invisible.
+-- Long enough for Hyprland's own on-close focus pick to land first, short
+-- enough to be invisible. Focusing synchronously in the handler below would
+-- just be overwritten by that pick.
 local settle_ms = 40
 
 if return_focus_on_close then
@@ -27,17 +22,6 @@ if return_focus_on_close then
     if not (window and window.active) then
       return
     end
-
-    -- Uncomment to limit this to Omarchy's popup-ish apps rather than every
-    -- window. The tag survives windows.lua tiling them, so it still matches.
-    -- local tags = window.tags
-    -- if type(tags) == "table" then
-    --   local popup = false
-    --   for _, tag in ipairs(tags) do
-    --     if tostring(tag):find("floating-window", 1, true) then popup = true end
-    --   end
-    --   if not popup then return end
-    -- end
 
     local previous = hl.get_last_window()
     if not previous then
