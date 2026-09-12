@@ -36,12 +36,14 @@ hl.unbind(mainMod .. " + L")
 o.bind(mainMod .. " + H", "Focus column left", hl.dsp.focus({ direction = "left" }))
 o.bind(mainMod .. " + L", "Focus column right", hl.dsp.focus({ direction = "right" }))
 
--- Swap the current column left/right.
--- Was: SUPER+J "Toggle window split", SUPER+K "Keybindings".
+-- Swap the current column left/right, on SHIFT of the focus keys above.
+o.bind(mainMod .. " + SHIFT + H", "Swap column left", hl.dsp.layout("swapcol l"))
+o.bind(mainMod .. " + SHIFT + L", "Swap column right", hl.dsp.layout("swapcol r"))
+
+-- Omarchy binds SUPER+J to "Toggle window split", which is a dwindle message.
+-- The scrolling layout has no such message and rejects it outright:
+--   error: no such layoutmsg for scrolling
 hl.unbind(mainMod .. " + J")
-hl.unbind(mainMod .. " + K")
-o.bind(mainMod .. " + J", "Swap column right", hl.dsp.layout("swapcol r"))
-o.bind(mainMod .. " + K", "Swap column left", hl.dsp.layout("swapcol l"))
 
 -- Toggle the active window between half and full screen width. The two sizes
 -- come from scrolling.explicit_column_widths in looknfeel.lua.
