@@ -82,7 +82,28 @@ o.bind(
 -- float/tile toggle without the geometry. On SHIFT because SUPER+O now cycles
 -- column width.
 --
--- Size is left to the script. It accepts [width height x y], but in logical
--- pixels -- on a scaled monitor those are fewer than the panel resolution, and
--- an override past them puts the window partly off-screen.
-o.bind(mainMod .. " + SHIFT + T", "Pop window out (float & pin)", "omarchy-hyprland-window-pop")
+-- The size is computed rather than passed as a constant. The script takes
+-- [width height x y] in logical pixels, and its own default of 1300x900 is
+-- bigger than the desktop once the monitor is scaled much past 1.0: at scale
+-- 1.6 this display is 1200x750 logical and a popped window landed at -50,-62,
+-- off all four edges. A fraction of the monitor stays right at any scale.
+local pop_fraction = 0.8
+
+o.bind(mainMod .. " + SHIFT + T", "Pop window out (float & pin)", function()
+  local monitor = hl.get_active_monitor()
+  if not monitor then
+    return
+  end
+
+  local reserved_y = 0
+  local reserved = monitor.reserved
+  if type(reserved) == "table" then
+    reserved_y = (reserved.top or 0) + (reserved.bottom or 0)
+  end
+
+  local scale = monitor.scale or 1
+  local width = math.floor(monitor.width / scale * pop_fraction)
+  local height = math.floor((monitor.height / scale - reserved_y) * pop_fraction)
+
+  hl.dispatch(hl.dsp.exec_cmd(("omarchy-hyprland-window-pop %d %d"):format(width, height)))
+end)
