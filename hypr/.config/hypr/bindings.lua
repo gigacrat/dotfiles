@@ -73,3 +73,11 @@ o.bind(
   "Toggle window workspace",
   (os.getenv("HOME") or "") .. "/.config/hypr/scripts/toggle_window_workspace.sh"
 )
+
+-- Escape hatch for windows.lua, which tiles Omarchy's floating windows into
+-- the scroll. When something genuinely wants to float, this pops it out at a
+-- workable size: float + resize + center + pin + raise. SUPER+T still does the
+-- plain float/tile toggle without the geometry.
+-- This is Omarchy's own "Pop window out", which used to live on SUPER+O before
+-- that key was taken for column width above.
+o.bind(mainMod .. " + SHIFT + T", "Pop window out (float & pin)", "omarchy-hyprland-window-pop 1600 1000")
