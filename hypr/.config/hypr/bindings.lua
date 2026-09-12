@@ -75,9 +75,12 @@ o.bind(
 )
 
 -- Escape hatch for windows.lua, which tiles Omarchy's floating windows into
--- the scroll. When something genuinely wants to float, this pops it out at a
--- workable size: float + resize + center + pin + raise. SUPER+T still does the
--- plain float/tile toggle without the geometry.
--- This is Omarchy's own "Pop window out", which used to live on SUPER+O before
--- that key was taken for column width above.
-o.bind(mainMod .. " + SHIFT + T", "Pop window out (float & pin)", "omarchy-hyprland-window-pop 1600 1000")
+-- the scroll. When something genuinely wants to float, this pops it out:
+-- float + resize + center + pin + raise. SUPER+T still does the plain
+-- float/tile toggle without the geometry. On SHIFT because SUPER+O now cycles
+-- column width.
+--
+-- Size is left to the script. It accepts [width height x y], but in logical
+-- pixels -- on a scaled monitor those are fewer than the panel resolution, and
+-- an override past them puts the window partly off-screen.
+o.bind(mainMod .. " + SHIFT + T", "Pop window out (float & pin)", "omarchy-hyprland-window-pop")
