@@ -8,16 +8,20 @@
 -- No stack needed: Hyprland already keeps a focus history -- every window
 -- carries a focus_history_id, 0 being active -- and hl.get_last_window() reads
 -- the entry just behind it. Nested popups unwind correctly for the same reason.
+--
+-- window.active fires for Hyprland's own on-close focus pick too, so hooking
+-- it lets us correct that pick in the same tick, before anything renders.
 
 local return_focus_on_close = true
 
--- Long enough for Hyprland's own on-close focus pick to land first, short
--- enough to be invisible. Focusing synchronously in the handler below would
--- just be overwritten by that pick.
-local settle_ms = 40
-
 if return_focus_on_close then
+  -- Address of the window we want focused next, set by window.close and
+  -- consumed by the very next window.active. nil means "nothing to correct".
+  local desired = nil
+
   hl.on("window.close", function(window)
+    desired = nil
+
     -- Closing a window that wasn't focused shouldn't move focus at all.
     if not (window and window.active) then
       return
@@ -36,14 +40,26 @@ if return_focus_on_close then
       return
     end
 
-    local selector = "address:" .. previous.address
+    desired = previous.address
+  end)
 
-    hl.timer(function()
-      -- The target may itself be gone by now (closing a parent takes its
-      -- dialogs with it), so re-check before focusing.
-      if hl.get_window(selector) then
-        hl.dispatch(hl.dsp.focus({ window = selector }))
-      end
-    end, { timeout = settle_ms, type = "oneshot" })
+  hl.on("window.active", function(window)
+    if not desired then
+      return
+    end
+
+    local want = desired
+    desired = nil -- one-shot: only correct the pick that follows a close
+
+    if window and window.address == want then
+      return -- Hyprland already landed on the right window
+    end
+
+    -- The target may itself be gone by now (closing a parent takes its
+    -- dialogs with it), so re-check before focusing.
+    local selector = "address:" .. want
+    if hl.get_window(selector) then
+      hl.dispatch(hl.dsp.focus({ window = selector }))
+    end
   end)
 end
