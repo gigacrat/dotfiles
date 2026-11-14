@@ -64,14 +64,16 @@ hl.unbind(mainMod .. " + SHIFT + P")
 o.bind(mainMod .. " + SHIFT + N", "Move window to next workspace", hl.dsp.window.move({ workspace = "+1" }))
 o.bind(mainMod .. " + SHIFT + P", "Move window to previous workspace", hl.dsp.window.move({ workspace = "-1" }))
 
--- Toggle the "scratch" special workspace.
--- Was: SUPER+RETURN "Terminal" (still available on SUPER+ALT+RETURN as Tmux).
+-- The "scratch" special workspace: a hidden workspace shown over the current
+-- one. SUPER+RETURN shows/hides it; SUPER+semicolon moves the active window
+-- into it, or back out to the regular workspace.
+-- Was: SUPER+RETURN "Terminal". No key opens a plain terminal now;
+-- SUPER+ALT+RETURN still opens one running tmux.
+local scratch = "scratch"
 hl.unbind(mainMod .. " + RETURN")
-o.bind(mainMod .. " + RETURN", "Toggle second screen", hl.dsp.workspace.toggle_special("scratch"))
-
--- Move the active window between the current and the other workspace.
+o.bind(mainMod .. " + RETURN", "Toggle scratch workspace", hl.dsp.workspace.toggle_special(scratch))
 o.bind(
   mainMod .. " + semicolon",
-  "Toggle window workspace",
-  (os.getenv("HOME") or "") .. "/.config/hypr/scripts/toggle_window_workspace.sh"
+  "Move window to/from scratch",
+  (os.getenv("HOME") or "") .. "/.config/hypr/scripts/toggle_scratch_window.sh " .. scratch
 )

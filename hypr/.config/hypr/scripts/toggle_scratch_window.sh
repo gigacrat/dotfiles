@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-special_name="scratch"
+# Move the active window into the given special workspace, or back out to the
+# monitor's regular workspace if it is already there. Bound in bindings.lua,
+# which passes the workspace name so it is defined in one place.
+special_name="${1:?usage: toggle_scratch_window.sh <special-workspace-name>}"
 special_ws="special:$special_name"
 
 # Hyprland's Lua config provider evaluates `hyprctl dispatch` arguments as Lua,
