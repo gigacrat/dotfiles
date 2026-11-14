@@ -88,7 +88,7 @@ diff /usr/share/omarchy/config/hypr/hyprland.lua hypr/.config/hypr/hyprland.lua
 
 | File | Why it's tracked |
 |------|------------------|
-| `.config/starship.toml` | Prompt symbol `◆` in yellow instead of Omarchy's bold cyan `❯` |
+| `.config/starship.toml` | Prompt symbol `◆` in yellow instead of Omarchy's bold cyan `❯`; error symbol `✗` in bold red instead of bold cyan |
 
 ### `tmux`
 
