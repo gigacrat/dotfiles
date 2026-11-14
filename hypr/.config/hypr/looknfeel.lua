@@ -1,13 +1,9 @@
--- Change the default Omarchy look'n'feel.
+-- Personal look'n'feel overrides, loaded after Omarchy's defaults.
+-- Commented examples of other options: /usr/share/omarchy/config/hypr/looknfeel.lua
 
 -- https://wiki.hypr.land/configuring/core/config-options/#general
 hl.config({
   general = {
---     -- No gaps between windows or borders.
---     gaps_in = 0,
---     gaps_out = 0,
---     border_size = 0,
-
     -- Change to niri-like side-scrolling layout.
     layout = "scrolling",
   },
@@ -18,28 +14,8 @@ hl.config({
   decoration = {
     -- Use round window corners.
     rounding = 8,
-
---     -- Dim unfocused windows (0.0 = no dim, 1.0 = fully dimmed).
---     dim_inactive = true,
---     dim_strength = 0.15,
   },
 })
-
--- https://wiki.hypr.land/configuring/core/config-options/#animations
--- hl.config({
---   animations = {
---     -- Disable all animations.
---     enabled = false,
---   },
--- })
-
--- https://wiki.hypr.land/configuring/core/config-options/#layout
--- hl.config({
---   layout = {
---     -- Avoid overly wide single-window layouts on wide screens.
---     single_window_aspect_ratio = { 1, 1 },
---   },
--- })
 
 -- https://wiki.hypr.land/configuring/layouts/scrolling-layout/
 hl.config({
