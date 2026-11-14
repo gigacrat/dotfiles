@@ -84,6 +84,26 @@ arrive on their own. After an Omarchy upgrade, compare and merge by hand:
 diff /usr/share/omarchy/config/hypr/hyprland.lua hypr/.config/hypr/hyprland.lua
 ```
 
+### `starship`
+
+| File | Why it's tracked |
+|------|------------------|
+| `.config/starship.toml` | Prompt symbol `◆` in yellow instead of Omarchy's bold cyan `❯` |
+
+### `tmux`
+
+| File | Why it's tracked |
+|------|------------------|
+| `.config/tmux/tmux.conf` | Ctrl+Space as the only prefix (Ctrl+b unbound), plus custom bindings |
+
+Both started as copies of Omarchy's templates, which have changed since. To
+see what Omarchy's current defaults would add or remove:
+
+```bash
+diff /usr/share/omarchy/config/tmux/tmux.conf tmux/.config/tmux/tmux.conf
+diff /usr/share/omarchy/config/starship.toml starship/.config/starship.toml
+```
+
 ## What is deliberately NOT tracked
 
 Omarchy ships eight user config files in `/usr/share/omarchy/config/hypr/`.
