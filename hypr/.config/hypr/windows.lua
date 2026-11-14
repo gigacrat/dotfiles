@@ -44,3 +44,28 @@ end
 -- hard-coded size is also too small for the app's own content there is no fix
 -- here at all: `size` and `no_max_size` are both ignored, and no min/max size is
 -- exposed in the Lua API or in `hyprctl clients`.
+
+-- Omarchy's own terminals (app-id org.omarchy.terminal: the update window and
+-- menu actions) open by printing an 81-column logo. At popup_width with the
+-- normal Alacritty font size of 9 they get 74 columns and the logo wraps; size
+-- 8 gives 89. Alacritty has no per-class config and Omarchy's launcher passes
+-- no terminal options, so the size is set over the instance's IPC socket.
+-- Alacritty creates that socket before its window, so it exists by
+-- window.open, and it reflows text already on screen, so landing before or
+-- after the logo prints gives the same result. Only works while Alacritty is
+-- the default terminal.
+local omarchy_terminal_font_size = 8
+
+if tile_omarchy_floats then
+  hl.on("window.open", function(window)
+    if not (window and window.class == "org.omarchy.terminal" and window.pid) then
+      return
+    end
+
+    hl.exec_cmd(string.format(
+      'alacritty msg --socket "$XDG_RUNTIME_DIR/Alacritty-$WAYLAND_DISPLAY-%d.sock" config -w -1 font.size=%s',
+      window.pid,
+      omarchy_terminal_font_size
+    ))
+  end)
+end

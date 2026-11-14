@@ -51,7 +51,7 @@ whatever is in the target.
 | `bindings.lua` | Scrolling-layout bindings: column focus/swap, width toggle, relative workspace switching, the `scratch` special workspace |
 | `input.lua` | `caps:swapescape` + `compose:ralt`, `repeat_delay`, `follow_mouse = 0`, `focus_on_close = 2`, `cursor.no_warps` |
 | `looknfeel.lua` | Scrolling layout, `rounding = 8`, column widths |
-| `windows.lua` | Tiles Omarchy's `floating-window` apps and omacalc into the scroll at half width |
+| `windows.lua` | Tiles Omarchy's `floating-window` apps and omacalc into the scroll at half width; drops Omarchy's own terminals to font size 8 (via Alacritty IPC) so the 81-column logo fits |
 | `scripts/toggle_scratch_window.sh` | Bound to `SUPER+semicolon`: moves the active window into or out of `scratch` |
 
 `hyprland.lua` is the one tracked file that is otherwise stock, and tracking it
