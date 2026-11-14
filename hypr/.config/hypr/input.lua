@@ -12,6 +12,9 @@ hl.config({
 
        -- Don't automatically focus windows on mouse hover.
        follow_mouse = 0,
+
+       -- When the focused window closes, focus the most recently used window.
+       focus_on_close = 2,
 --
 --     -- Use a specific keyboard variant if needed (e.g. intl for international keyboards).
 --     kb_variant = "intl",
