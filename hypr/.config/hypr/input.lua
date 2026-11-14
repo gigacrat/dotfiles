@@ -1,7 +1,7 @@
 -- Keep only your personal input overrides here. Uncommented settings below
 -- replace Omarchy's defaults.
 
--- Keyboard layout and options.
+-- Keyboard, mouse focus and other input options.
 -- See https://wiki.hypr.land/Configuring/Basics/Variables/#input
 hl.config({
    input = {

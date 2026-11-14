@@ -31,7 +31,7 @@
 local mainMod = "SUPER"
 
 -- Move focus between columns with H/L.
-hl.unbind(mainMod .. " + H")
+-- Was: SUPER+L "Cycle workspace layout". SUPER+H was unbound.
 hl.unbind(mainMod .. " + L")
 o.bind(mainMod .. " + H", "Focus column left", hl.dsp.focus({ direction = "left" }))
 o.bind(mainMod .. " + L", "Focus column right", hl.dsp.focus({ direction = "right" }))
