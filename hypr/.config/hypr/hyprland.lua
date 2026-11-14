@@ -1,4 +1,4 @@
--- Learn how to configure Hyprland: https://wiki.hypr.land/Configuring/Start/
+-- Learn how to configure Hyprland: https://wiki.hypr.land/configuring/
 
 -- Omarchy's bootstrap keeps path setup out of this user config.
 dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/bootstrap.lua")

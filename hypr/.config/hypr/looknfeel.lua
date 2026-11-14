@@ -1,6 +1,6 @@
 -- Change the default Omarchy look'n'feel.
 
--- https://wiki.hypr.land/Configuring/Basics/Variables/#general
+-- https://wiki.hypr.land/configuring/core/config-options/#general
 hl.config({
   general = {
 --     -- No gaps between windows or borders.
@@ -13,7 +13,7 @@ hl.config({
   },
 })
 
--- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
+-- https://wiki.hypr.land/configuring/core/config-options/#decoration
 hl.config({
   decoration = {
     -- Use round window corners.
@@ -25,7 +25,7 @@ hl.config({
   },
 })
 
--- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
+-- https://wiki.hypr.land/configuring/core/config-options/#animations
 -- hl.config({
 --   animations = {
 --     -- Disable all animations.
@@ -33,7 +33,7 @@ hl.config({
 --   },
 -- })
 
--- https://wiki.hypr.land/Configuring/Basics/Variables/#layout
+-- https://wiki.hypr.land/configuring/core/config-options/#layout
 -- hl.config({
 --   layout = {
 --     -- Avoid overly wide single-window layouts on wide screens.
@@ -41,7 +41,7 @@ hl.config({
 --   },
 -- })
 
--- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
+-- https://wiki.hypr.land/configuring/layouts/scrolling-layout/
 hl.config({
   scrolling = {
     -- See only one column per screen instead of two.
