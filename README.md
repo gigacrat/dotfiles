@@ -43,6 +43,26 @@ whatever is in the target.
 
 ## Packages
 
+### `agents`
+
+Global instructions for coding agents, kept in one file:
+`.agents/AGENTS.md`. Every other path below is a relative symlink to it
+inside this repo, so a single `stow agents` points each tool's expected
+location at the same text.
+
+| Path | Read by |
+|------|---------|
+| `.agents/AGENTS.md` | the source file; also read by tools following the `.agents` convention |
+| `.claude/CLAUDE.md` | Claude Code, and omp (with `claude` in `enabledProviders`) |
+| `.codex/AGENTS.md` | Codex |
+| `.config/opencode/AGENTS.md` | OpenCode |
+| `.gemini/GEMINI.md` | Gemini CLI |
+
+omp keeps a single user-level context file, picks `.claude/CLAUDE.md` over
+`.agents/AGENTS.md`, and drops any file named `AGENTS.md` from what its task
+subagents receive. Loading through the `CLAUDE.md` name is what keeps these
+instructions visible to omp's subagents.
+
 ### `hypr`
 
 | File | Why it's tracked |
