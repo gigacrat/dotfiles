@@ -8,8 +8,8 @@ success_symbol = "[◆](yellow)"
 
 [time]
 disabled = false
-format = "[\\[$time\\]](bright-black)"
-time_format = "%H:%M:%S"
+format = "[\\[$time\\]](bold bright-black)"
+time_format = "%^b-%d %H:%M:%S"
 
 [python]
 format = "[]($style) "
@@ -19,7 +19,7 @@ detect_files = []
 detect_folders = []
 
 [custom.venv_off]
-when = 'test -z "$VIRTUAL_ENV"'
+when = 'test -z "$VIRTUAL_ENV" && { test -d .venv || test -d venv; }'
 format = "[](dimmed) "
 
 [directory]
