@@ -1,10 +1,26 @@
 add_newline = true
 command_timeout = 200
-format = "[$directory$git_branch$git_status]($style)$character"
+format = "$time [$directory$git_branch$git_status]($style)$python${custom.venv_off}$character"
 
 [character]
 error_symbol = "[✗](red)"
 success_symbol = "[◆](yellow)"
+
+[time]
+disabled = false
+format = "[\\[$time\\]](bright-black)"
+time_format = "%H:%M:%S"
+
+[python]
+format = "[]($style) "
+style = "green"
+detect_extensions = []
+detect_files = []
+detect_folders = []
+
+[custom.venv_off]
+when = 'test -z "$VIRTUAL_ENV"'
+format = "[](dimmed) "
 
 [directory]
 truncation_length = 2
